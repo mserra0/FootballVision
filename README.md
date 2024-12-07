@@ -84,6 +84,10 @@ You need to download the models from the following link:
 
 ## Methodology
 
+<p align="center">
+ <img src="figs/Architecture.png" width="500" style="border-radius: 0%;"
+</p>
+
 1. **Object Detection**:
    - **YOLOv5** is used to detect players, referees, and the ball.
    - **YOLOv8** is fine-tuned to identify key field points such as lines, circles, and goals for homography.
@@ -104,11 +108,23 @@ You need to download the models from the following link:
 
 1. **Detection Performance**:
    - YOLOv5 effectively detected players and referees with high precision but struggled with smaller objects like the ball due to dataset limitations.
-   - YOLOv8 achieved better results for field keypoint detection, improving homography accuracy.
 
+<p align="center">
+  <img src="figs/detect_players.png" width="500" style="border-radius: 0%;"
+</p>
+
+   - YOLOv8 achieved good results in the less chaotic videos for field keypoint detection but struggled greatly with the fast camera movements.
+<p align="center">
+  <img src="figs/keypoints.png" width="500" style="border-radius: 0%;">
+</p>
+
+<p align="center"><em>Steady scenario where the model performed exceptionally well at detecting keypoints.</em></p>
+
+  - Using these points, we attempted to organize and predict their exact coordinates. However, this effort was unsuccessful due to insufficient information about their relative positions. To address this, we decided to use fixed top-down perspectives of the field, providing a consistent reference for arranging the points systematically
+    
 2. **Tracking and Classification**:
    - ByteTrack maintained robust tracking even during occlusions.
-   - K-means successfully classified players into teams based on jersey colors.
+   - K-means successfully classified players into teams based on jersey colours.
 
 3. **Generated Metrics**:
    - Distances covered, velocities, and possession statistics were calculated for individual players and teams. These metrics were validated against manual annotations.
@@ -116,6 +132,15 @@ You need to download the models from the following link:
 4. **Challenges**:
    - Frequent camera perspective changes posed significant challenges for maintaining consistent homography.
    - Limited ball detection accuracy impacted possession metrics.
+
+5. **Results**:
+  - The final result is presented using footage from the training camera instead of the broadcast television feed. This decision was made because the rapid camera movements in the televised footage prevented accurate homography calculations.
+<p align="center">
+  <img src="figs/resultado.jpg" width="500" style="border-radius: 0%;">
+</p>
+
+<p align="center"><em>Detection and mapping of players' positions on the field, with calculated team possession percentages.</em></p>
+
 
 ## Challenges and Limitations
 
@@ -130,6 +155,11 @@ You need to download the models from the following link:
 
 2. **Automated Homography**:
    - Train models specialized in pose estimation to provide more robust and automated field mapping.
+<p align="center">
+<img src="figs/ObjectiuPoseEstimation.png" width="500" style="border-radius: 0%;">
+</p>
+
+<p align="center"><em>Key points for pose estimation.</em></p>
 
 3. **Expanded Metrics**:
    - Include tactical insights such as formations, pass networks, and heatmaps.
